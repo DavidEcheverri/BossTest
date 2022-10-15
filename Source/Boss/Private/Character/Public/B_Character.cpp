@@ -147,8 +147,20 @@ void AB_Character::SecondAttack()
 	}
 }
 
+void AB_Character::ActiveColliderAttack()
+{
+	if (CurrentWeapon) 
+	{
+		CurrentWeapon->SetDetectorCollision(ECollisionEnabled::QueryOnly);
+	}
+}
+
 void AB_Character::EndAttack()
 {
+	if (CurrentWeapon)
+	{
+		CurrentWeapon->SetDetectorCollision(ECollisionEnabled::NoCollision);
+	}
 	bAttacking = false;
 }
 
@@ -159,6 +171,7 @@ void AB_Character::CreateInitialWeapon()
 		CurrentWeapon = GetWorld()->SpawnActor<AB_Weapon>(InitialWeaponClass, GetActorLocation(), GetActorRotation());
 		const USkeletalMeshSocket* LefttHandSocket = GetMesh()->GetSocketByName("hand_rSocket");
 		LefttHandSocket->AttachActor(CurrentWeapon, GetMesh());
+		CurrentWeapon->SetUser(this);
 		//if (IsValid(CurrentWeapon))
 		//{
 		//	CurrentWeapon->SetCharacterOwner(this);

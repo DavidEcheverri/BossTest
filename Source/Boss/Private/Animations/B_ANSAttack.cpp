@@ -6,7 +6,16 @@
 
 void UB_ANSAttack::NotifyBegin(USkeletalMeshComponent* MeshComp, UAnimSequenceBase* Animation, float TotalDuration)
 {
+	AActor* CharacterActor = MeshComp->GetOwner();
 
+	if (IsValid(CharacterActor))
+	{
+		AB_Character* Character = Cast<AB_Character>(CharacterActor);
+		if (IsValid(Character))
+		{
+			Character->ActiveColliderAttack();
+		}
+	}
 }
 
 void UB_ANSAttack::NotifyEnd(USkeletalMeshComponent* MeshComp, UAnimSequenceBase* Animation)

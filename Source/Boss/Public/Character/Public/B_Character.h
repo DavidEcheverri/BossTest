@@ -72,6 +72,8 @@ public:
 
 	void SecondAttack();
 
+	void ActiveColliderAttack();
+
 	void EndAttack();
 
 	void CreateInitialWeapon();
