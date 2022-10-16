@@ -16,11 +16,11 @@ AB_Weapon::AB_Weapon()
 	Mesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Mesh"));
 	RootComponent = Mesh;
 
+	Attack = 10.0f;
+
 	AttackDetector = CreateDefaultSubobject<UCapsuleComponent>(TEXT("AttackDetector"));
 	AttackDetector->SetupAttachment(RootComponent);
 	AttackDetector->SetCollisionResponseToAllChannels(ECR_Ignore);
-	AttackDetector->SetCollisionResponseToChannel(COLLISION_ENEMY, ECR_Overlap);
-	AttackDetector->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 }
 
 void AB_Weapon::SetDetectorCollision(ECollisionEnabled::Type NewCollisionState)
@@ -28,9 +28,17 @@ void AB_Weapon::SetDetectorCollision(ECollisionEnabled::Type NewCollisionState)
 	AttackDetector->SetCollisionEnabled(NewCollisionState);
 }
 
-void AB_Weapon::SetUser(AB_Character* Character)
+void AB_Weapon::SetUser(ACharacter* Character)
 {
 	CharacterUser = Character;
+	if (IsValid(Cast<AB_Character>(Character))) 
+	{
+		AttackDetector->SetCollisionResponseToChannel(COLLISION_ENEMY, ECR_Overlap);
+	}
+	else 
+	{
+		AttackDetector->SetCollisionResponseToChannel(COLLISION_PLAYER, ECR_Overlap);
+	}
 }
 
 // Called when the game starts or when spawned
@@ -43,6 +51,7 @@ void AB_Weapon::BeginPlay()
 void AB_Weapon::InitializeReferences()
 {
 	AttackDetector->OnComponentBeginOverlap.AddDynamic(this, &AB_Weapon::MakeDamage);
+	AttackDetector->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 }
 
 void AB_Weapon::MakeDamage(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)

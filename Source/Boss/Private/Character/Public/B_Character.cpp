@@ -11,6 +11,7 @@
 #include "Animation/AnimMontage.h"
 #include "Weapons/B_Weapon.h"
 #include "Engine/SkeletalMeshSocket.h"
+#include "Components/B_HealthComponent.h"
 
 // Sets default values
 AB_Character::AB_Character()
@@ -44,6 +45,8 @@ AB_Character::AB_Character()
 	GetCharacterMovement()->RotationRate = FRotator(0.0f, 540.f, 0.0f); // ... at this rotation rate
 	GetCharacterMovement()->JumpZVelocity = 650.f;
 	GetCharacterMovement()->AirControl = 0.2f;
+
+	HealthComponent = CreateDefaultSubobject<UB_HealthComponent>(TEXT("HealthComponent"));
 
 }
 
@@ -172,11 +175,6 @@ void AB_Character::CreateInitialWeapon()
 		const USkeletalMeshSocket* LefttHandSocket = GetMesh()->GetSocketByName("hand_rSocket");
 		LefttHandSocket->AttachActor(CurrentWeapon, GetMesh());
 		CurrentWeapon->SetUser(this);
-		//if (IsValid(CurrentWeapon))
-		//{
-		//	CurrentWeapon->SetCharacterOwner(this);
-		//	CurrentWeapon->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale);
-		//}
 	}
 }
 

@@ -7,7 +7,6 @@
 #include "B_Weapon.generated.h"
 
 class UCapsuleComponent;
-class AB_Character;
 
 UCLASS()
 class BOSS_API AB_Weapon : public AActor
@@ -28,7 +27,8 @@ public:
 
 private:
 
-	AB_Character* CharacterUser;
+	ACharacter* CharacterUser;
+
 private:
 
 	void InitializeReferences();
@@ -42,7 +42,7 @@ public:
 
 	void SetDetectorCollision(ECollisionEnabled::Type NewCollisionState);
 
-	void SetUser(AB_Character* Character);
+	void SetUser(ACharacter* Character);
 
 protected:
 	// Called when the game starts or when spawned

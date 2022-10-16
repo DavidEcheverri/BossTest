@@ -4,23 +4,21 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
-#include "B_Character.generated.h"
+#include "B_Troll.generated.h"
 
-class AB_Weapon;
 class UB_HealthComponent;
+class AB_GameMode;
+class AB_Weapon;
 
 UCLASS()
-class BOSS_API AB_Character : public ACharacter
+class BOSS_API AB_Troll : public ACharacter
 {
 	GENERATED_BODY()
 
 public:
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-	class USpringArmComponent* CameraBoom;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-	class UCameraComponent* FollowCamera;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
+	UB_HealthComponent* HealthComponent;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Animation")
 	UAnimMontage* MeleeMontage;
@@ -33,48 +31,20 @@ public:
 	UPROPERTY(BlueprintReadWrite, Category = "Weapon")
 	AB_Weapon* CurrentWeapon;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
-	UB_HealthComponent* HealthComponent;
+	AB_GameMode* GameModeReference;
 
 public:
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera)
-	float BaseTurnRate;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera)
-	float BaseLookUpRate;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Anims")
 	bool bAttacking;
 
 public:
-	// Sets default values for this character's properties
-	AB_Character();
 
-protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
+	UFUNCTION()
+	void OnHealthChange(UB_HealthComponent* MyHealthComponent);
 
-	void InitializeReferences();
-
-public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
-
-	// Called to bind functionality to input
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-
-	void MoveForward(float Value);
-
-	void MoveRight(float Value);
-
-	void TurnAtRate(float Rate);
-
-	void LookUpAtRate(float Rate);
-
-	void FirstAttack();
-
-	void SecondAttack();
+	UFUNCTION(BlueprintCallable)
+	void Attack();
 
 	void ActiveColliderAttack();
 
@@ -82,6 +52,19 @@ public:
 
 	void CreateInitialWeapon();
 
-	void virtual  Jump() override;
+public:
+	// Sets default values for this character's properties
+	AB_Troll();
+
+protected:
+	// Called when the game starts or when spawned
+	virtual void BeginPlay() override;
+
+public:	
+	// Called every frame
+	virtual void Tick(float DeltaTime) override;
+
+	// Called to bind functionality to input
+	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 };
