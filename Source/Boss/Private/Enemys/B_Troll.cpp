@@ -26,6 +26,10 @@ void AB_Troll::BeginPlay()
 	
 	HealthComponent->OnHealthChangeDelegate.AddDynamic(this, &AB_Troll::OnHealthChange);
 	CreateInitialWeapon();
+	if (IsValid(GetMesh()))
+	{
+		MyAnimInstance = GetMesh()->GetAnimInstance();
+	}
 	GameModeReference = Cast<AB_GameMode>(GetWorld()->GetAuthGameMode());
 }
 
@@ -53,7 +57,13 @@ void AB_Troll::OnHealthChange(UB_HealthComponent* MyHealthComponent)
 
 void AB_Troll::Attack()
 {
-
+	if (IsValid(MyAnimInstance) && IsValid(MeleeMontage) && !bAttacking)
+	{
+		int32 AttackSelected = FMath::RandRange(1, 2);
+		bAttacking = true;
+		MyAnimInstance->Montage_Play(MeleeMontage);
+		MyAnimInstance->Montage_JumpToSection(FName("Attack_" + FString::FromInt(AttackSelected)), MeleeMontage);
+	}
 }
 
 void AB_Troll::ActiveColliderAttack()

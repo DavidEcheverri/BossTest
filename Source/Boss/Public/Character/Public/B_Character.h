@@ -8,6 +8,7 @@
 
 class AB_Weapon;
 class UB_HealthComponent;
+class AB_GameMode;
 
 UCLASS()
 class BOSS_API AB_Character : public ACharacter
@@ -35,6 +36,8 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
 	UB_HealthComponent* HealthComponent;
+
+	AB_GameMode* GameModeReference;
 
 public:
 
@@ -81,6 +84,9 @@ public:
 	void EndAttack();
 
 	void CreateInitialWeapon();
+
+	UFUNCTION()
+	void OnHealthChange(UB_HealthComponent* MyHealthComponent);
 
 	void virtual  Jump() override;
 

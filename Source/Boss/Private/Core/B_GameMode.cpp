@@ -5,10 +5,10 @@
 
 void AB_GameMode::GameOver()
 {
-
+	UE_LOG(LogTemp, Warning, TEXT("GameOver"));
 }
 
 void AB_GameMode::Victory()
 {
-
+	UE_LOG(LogTemp, Warning, TEXT("Victory"));
 }

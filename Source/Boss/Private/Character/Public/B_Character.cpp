@@ -12,6 +12,7 @@
 #include "Weapons/B_Weapon.h"
 #include "Engine/SkeletalMeshSocket.h"
 #include "Components/B_HealthComponent.h"
+#include "Core/B_GameMode.h"
 
 // Sets default values
 AB_Character::AB_Character()
@@ -60,6 +61,8 @@ void AB_Character::BeginPlay()
 
 void AB_Character::InitializeReferences()
 {
+	GameModeReference = Cast<AB_GameMode>(GetWorld()->GetAuthGameMode());
+	HealthComponent->OnHealthChangeDelegate.AddDynamic(this, &AB_Character::OnHealthChange);
 	if (IsValid(GetMesh())) 
 	{
 		MyAnimInstance = GetMesh()->GetAnimInstance();
@@ -183,6 +186,14 @@ void AB_Character::Jump()
 	if (!bAttacking)
 	{
 		Super::Jump();
+	}
+}
+
+void AB_Character::OnHealthChange(UB_HealthComponent* MyHealthComponent)
+{
+	if (HealthComponent->IsDead())
+	{
+		GameModeReference->GameOver();
 	}
 }
 
