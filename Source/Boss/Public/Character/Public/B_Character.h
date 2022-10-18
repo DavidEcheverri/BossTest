@@ -34,9 +34,6 @@ public:
 	UPROPERTY(BlueprintReadWrite, Category = "Weapon")
 	AB_Weapon* CurrentWeapon;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
-	UB_HealthComponent* HealthComponent;
-
 	AB_GameMode* GameModeReference;
 
 public:
@@ -59,6 +56,11 @@ protected:
 	virtual void BeginPlay() override;
 
 	void InitializeReferences();
+
+protected:
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
+	UB_HealthComponent* HealthComponent;
 
 public:	
 	// Called every frame
@@ -85,9 +87,16 @@ public:
 
 	void CreateInitialWeapon();
 
+	void PauseGame();
+	
+	UFUNCTION(BlueprintImplementableEvent)
+	void BP_PauseGame();
+
 	UFUNCTION()
 	void OnHealthChange(UB_HealthComponent* MyHealthComponent);
 
 	void virtual  Jump() override;
+
+	UB_HealthComponent* GetHealthComponent() { return HealthComponent; };
 
 };

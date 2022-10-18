@@ -67,6 +67,12 @@ void AB_Character::InitializeReferences()
 	{
 		MyAnimInstance = GetMesh()->GetAnimInstance();
 	}
+
+	if (IsValid(GameModeReference)) 
+	{
+		GameModeReference->SetCharacter(this);
+	}
+
 }
 
 // Called every frame
@@ -96,6 +102,9 @@ void AB_Character::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 
 	PlayerInputComponent->BindAction("Attack_2", IE_Pressed, this, &AB_Character::SecondAttack);
 	PlayerInputComponent->BindAction("Attack_2", IE_Released, this, &AB_Character::SecondAttack);
+
+	PlayerInputComponent->BindAction("Pause", IE_Pressed, this, &AB_Character::PauseGame);
+
 }
 
 void AB_Character::MoveForward(float Value)
@@ -181,6 +190,7 @@ void AB_Character::CreateInitialWeapon()
 	}
 }
 
+
 void AB_Character::Jump()
 {
 	if (!bAttacking)
@@ -194,6 +204,14 @@ void AB_Character::OnHealthChange(UB_HealthComponent* MyHealthComponent)
 	if (HealthComponent->IsDead())
 	{
 		GameModeReference->GameOver();
+	}
+}
+
+void AB_Character::PauseGame()
+{
+	if (!HealthComponent->IsDead()) 
+	{
+		BP_PauseGame();
 	}
 }
 

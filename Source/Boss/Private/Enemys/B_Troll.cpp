@@ -26,11 +26,7 @@ void AB_Troll::BeginPlay()
 	
 	HealthComponent->OnHealthChangeDelegate.AddDynamic(this, &AB_Troll::OnHealthChange);
 	CreateInitialWeapon();
-	if (IsValid(GetMesh()))
-	{
-		MyAnimInstance = GetMesh()->GetAnimInstance();
-	}
-	GameModeReference = Cast<AB_GameMode>(GetWorld()->GetAuthGameMode());
+	InitializeReferences();
 }
 
 // Called every frame
@@ -91,5 +87,19 @@ void AB_Troll::CreateInitialWeapon()
 		const USkeletalMeshSocket* LefttHandSocket = GetMesh()->GetSocketByName("b_MF_Weapon_R_Socket");
 		LefttHandSocket->AttachActor(CurrentWeapon, GetMesh());
 		CurrentWeapon->SetUser(this);
+	}
+}
+
+void AB_Troll::InitializeReferences()
+{
+	if (IsValid(GetMesh()))
+	{
+		MyAnimInstance = GetMesh()->GetAnimInstance();
+	}
+	GameModeReference = Cast<AB_GameMode>(GetWorld()->GetAuthGameMode());
+
+	if (IsValid(GameModeReference))
+	{
+		GameModeReference->SetTroll(this);
 	}
 }

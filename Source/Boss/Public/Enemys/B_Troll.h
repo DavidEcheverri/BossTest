@@ -52,6 +52,9 @@ public:
 
 	void CreateInitialWeapon();
 
+	void InitializeReferences();
+	UB_HealthComponent* GetHealthComponent() { return HealthComponent; };
+
 public:
 	// Sets default values for this character's properties
 	AB_Troll();

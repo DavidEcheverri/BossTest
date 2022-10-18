@@ -8,6 +8,7 @@
 
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnHealthChangeSignature, UB_HealthComponent*, HealthComponent);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnHealthUpdateSignature, float, CurrentHealth, float, MaxHealth);
 
 UCLASS( ClassGroup=(BOSS), meta=(BlueprintSpawnableComponent) )
 class BOSS_API UB_HealthComponent : public UActorComponent
@@ -28,10 +29,15 @@ protected:
 	UPROPERTY(BlueprintReadOnly, Category = "Health")
 	AActor* MyOwner;
 
+	FTimerHandle TimerHandle_UpdateInitialHealht;
+
 public:
 
 	UPROPERTY(BlueprintAssignable)
 	FOnHealthChangeSignature OnHealthChangeDelegate;
+
+	UPROPERTY(BlueprintAssignable)
+	FOnHealthUpdateSignature OnHealthUpdateDelegate;
 
 public:	
 	// Sets default values for this component's properties
@@ -39,6 +45,8 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	bool IsDead() const { return bIsDead; };
+
+	void UpdateInitialHealth();
 
 protected:
 	// Called when the game starts

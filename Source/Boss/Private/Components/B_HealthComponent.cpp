@@ -27,6 +27,8 @@ void UB_HealthComponent::BeginPlay()
 	{
 		MyOwner->OnTakeAnyDamage.AddDynamic(this, &UB_HealthComponent::TakingDamage);
 	}
+
+	GetWorld()->GetTimerManager().SetTimer(TimerHandle_UpdateInitialHealht, this, &UB_HealthComponent::UpdateInitialHealth, 0.2f, false);
 }
 
 void UB_HealthComponent::TakingDamage(AActor* DamagedActor, float Damage, const UDamageType* DamageType, AController* InstigatedBy, AActor* DamageCauser)
@@ -44,6 +46,12 @@ void UB_HealthComponent::TakingDamage(AActor* DamagedActor, float Damage, const 
 	}
 
 	OnHealthChangeDelegate.Broadcast(this);
+	OnHealthUpdateDelegate.Broadcast(Health, MaxHealth);
+}
+
+void UB_HealthComponent::UpdateInitialHealth()
+{
+	OnHealthUpdateDelegate.Broadcast(Health, MaxHealth);
 }
 
 
