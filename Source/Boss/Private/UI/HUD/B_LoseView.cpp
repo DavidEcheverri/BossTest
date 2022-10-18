@@ -15,5 +15,5 @@ void UB_LoseView::RestartLevel()
 void UB_LoseView::Quit()
 {
 	BP_Quit();
-	UGameplayStatics::OpenLevel(GetWorld(), MainMenuName, false);
+	UKismetSystemLibrary::QuitGame(GetWorld(), UGameplayStatics::GetPlayerController(GetWorld(), 0), EQuitPreference::Quit, false);
 }

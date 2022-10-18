@@ -32,6 +32,7 @@ void AB_GameMode::Victory()
 
 void AB_GameMode::GameOver()
 {
+	TrollRef->GetController()->UnPossess();
 	BP_GameOver();
 }
 

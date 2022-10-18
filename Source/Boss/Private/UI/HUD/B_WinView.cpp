@@ -13,11 +13,11 @@ void UB_WinView::Initialize(APlayerController* PlayerController)
 void UB_WinView::BackMainMenu()
 {
 	BP_BackMainMenu();
-	UKismetSystemLibrary::QuitGame(GetWorld(), UGameplayStatics::GetPlayerController(GetWorld(), 0), EQuitPreference::Quit, false);
+	UGameplayStatics::OpenLevel(GetWorld(), MainMenuName);
 }
 
 void UB_WinView::Quit()
 {
 	BP_Quit();
-	UGameplayStatics::OpenLevel(GetWorld(), MainMenuName);
+	UKismetSystemLibrary::QuitGame(GetWorld(), UGameplayStatics::GetPlayerController(GetWorld(), 0), EQuitPreference::Quit, false);
 }

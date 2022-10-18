@@ -5,10 +5,10 @@
 #include "Kismet/GameplayStatics.h"
 #include "GameFramework/PlayerController.h"
 
-void UB_PauseMenu::Initialize(APlayerController* PlayerController)
+void UB_PauseMenu::Init()
 {
-	PlayerControllerRef = PlayerController;
 	BP_Initialize();
+	bIsInited = true;
 }
 
 void UB_PauseMenu::ContinueGame()

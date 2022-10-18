@@ -20,13 +20,13 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Pause Menu")
 	FName MainMenuName;
 
-	UPROPERTY(BlueprintReadOnly, Category = "Pause Menu")
-	APlayerController* PlayerControllerRef;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Pause Menu")
+	bool bIsInited;
 
 protected:
 
 	UFUNCTION(BlueprintCallable, Category = "Pause Menu")
-	void Initialize(APlayerController* PlayerController);
+	void Init();
 
 	UFUNCTION(BlueprintCallable, Category = "Pause Menu")
 	void ContinueGame();
@@ -50,4 +50,5 @@ protected:
 
 	UFUNCTION(BlueprintImplementableEvent, Category = "Pause Menu")
 	void BP_Initialize();
+
 };
