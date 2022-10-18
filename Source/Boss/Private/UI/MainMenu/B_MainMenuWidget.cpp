@@ -15,5 +15,5 @@ void UB_MainMenuWidget::Quit()
 void UB_MainMenuWidget::StartGameplay()
 {
 	BP_StartGameplay();
-	UGameplayStatics::OpenLevel(GetWorld(), GameplayLevelName);
+	UGameplayStatics::OpenLevel(GetWorld(), GameplayLevelName, false);
 }
